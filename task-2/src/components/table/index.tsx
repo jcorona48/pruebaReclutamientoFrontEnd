@@ -3,10 +3,8 @@ import UserPlaceHolderImg from "@/assets/img/userPlaceHolder.jpg";
 import { toast } from "react-toastify";
 
 const index = ({ headers, datas, deleteObject, messages, setId }) => {
-
-
     const [data, setData] = useState([]);
-
+    const [orderAsc, setOrderAsc] = useState(false);
     useEffect(() => {
         setData(datas);
     }, [datas]);
@@ -15,10 +13,9 @@ const index = ({ headers, datas, deleteObject, messages, setId }) => {
     useEffect(() => {
         setFilter(data);
     }, [data]);
-    
+
     const formRef: any = useRef();
     const handleDelete = async (id) => {
-
         // Quiero que me salga el aviso de si quiero eliminar el usuario
         const deleted = confirm(
             messages?.delete || "¿Seguro que desea eliminar este objeto?"
@@ -47,12 +44,44 @@ const index = ({ headers, datas, deleteObject, messages, setId }) => {
 
         const filter = info.filter.toLowerCase();
         if (!filter) return setFilter(data);
+
         const filterData = data.filter((row) => {
             return Object.keys(row).some((key) =>
                 row[key]?.toString()?.toLowerCase()?.includes(filter)
             );
         });
         setFilter(filterData);
+    };
+
+    const handleOrder = (header) => {
+        if (orderAsc) {
+            setOrderAsc(false);
+            const filterData = data.sort((a, b) => {
+                if (a[header.key] > b[header.key]) {
+                    return -1;
+                }
+                if (a[header.key] < b[header.key]) {
+                    return 1;
+                }
+                return 0;
+            });
+            setFilter(filterData);
+            return;
+        } else {
+            setOrderAsc(true);
+            const filterData = data.sort((a, b) => {
+                if (a[header.key] < b[header.key]) {
+                    return -1;
+                }
+                if (a[header.key] > b[header.key]) {
+                    return 1;
+                }
+
+                return 0;
+            });
+            setFilter(filterData);
+            console.log("Order Raza", filterData);
+        }
     };
     return (
         <div
@@ -122,8 +151,17 @@ const index = ({ headers, datas, deleteObject, messages, setId }) => {
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             {headers.map((header, index) => (
-                                <th scope="col" className="px-6 py-3" key={index}>
-                                    {header.name}
+                                <th
+                                    scope="col"
+                                    className="px-6 py-3 cursor-pointer"
+                                    key={index}
+                                    onClick={() => {
+                                        handleOrder(header);
+
+                                        console.log(header);
+                                    }}
+                                >
+                                    {header.name} {orderAsc ? "▲" : "▼"}
                                 </th>
                             ))}
 
@@ -145,7 +183,10 @@ const index = ({ headers, datas, deleteObject, messages, setId }) => {
                                 {headers.map((header, index) => {
                                     if (header.key == "img_url") {
                                         return (
-                                            <td className="px-6 py-4" key={index}>
+                                            <td
+                                                className="px-6 py-4"
+                                                key={index}
+                                            >
                                                 <img
                                                     src={
                                                         row[header.key] ||
@@ -167,7 +208,6 @@ const index = ({ headers, datas, deleteObject, messages, setId }) => {
                                     <div className="flex gap-4">
                                         <button
                                             onClick={() => handleEdit(row.id)}
-
                                             className="font-medium text-[#ffa600e7] dark:text-[#ffa600a9]hover:underline"
                                         >
                                             Edit
