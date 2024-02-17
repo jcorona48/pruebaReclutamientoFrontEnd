@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import type { FetchDogsResponse } from '../types/dogs';
+import Select from '@/components/Form/Select'
+
+const data: FetchDogsResponse = await fetch("https://dog.ceo/api/breeds/list/all").then((res) => res.json());
+const breeds = Object.keys(data.message);
+import Dogs from '@/components/Dogs'
+
+---
+
+<Layout title="WoofWorld">
+	<main class="flex-1 w-full">
+		<section class="container">
+			<div>
+				<Select 
+					label='Breeds'
+					name='breed'
+					id='breed'
+					options={breeds}
+					defaultValue='Choose a breed'
+					client:load
+				>
+			</div>
+			<Dogs client:load breeds={breeds} data={data} />
+		</section>
+	</main>
+</Layout>
+
+<style>
+	main {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		flex-direction: column;
+	}
+
+	section {
+		width: 900px;
+		gap: 1rem;
+		padding: 1rem;
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: column;
+		max-width: calc(100% - 2rem);
+	}
+</style>

@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MantenanceLayout from '@/components/MantenanceLayout'
+
+const messages = {
+    delete: "¿Está seguro que desea eliminar esta raza?",
+    pending: "Eliminando Raza...",
+    success: "Raza eliminada correctamente",
+    error: "Error al eliminar la Raza"
+}
+
+const headers = [
+    { name: 'Raza', key: 'name' },
+    { name: 'Sub-Razas', key: 'subBreeds' },
+    { name: "Cantidad SubRazas", key: "subBreedsLength"},
+]
+
+
+
+---
+
+<Layout title="Welcome to Astro.">
+	<main class="flex-1 w-full">
+		
+        <MantenanceLayout 
+            title="Mantenimiento de Breeds"
+            headers={headers}
+            messages={messages}
+            client:load
+        />
+	</main>
+</Layout>
+
+<style>
+	main {
+		flex: 1;
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+        gap: 1rem;
+        overflow-y: auto;
+	}
+</style>
