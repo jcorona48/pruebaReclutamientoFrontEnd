@@ -19,7 +19,7 @@ Cree una página web que obtenga datos de Dog API y realice un command and conqu
 * Agregue una forma de ordenar los datos por nombre de perro o subrazas.
 * Cree un CRUD simple basado en API (guarde los datos localmente, puede usar una variable, almacenamiento local, sesión o cookie, lo que crea que es la mejor opción)
 
-[Ver Mas](./task-2/Readme.md)
+[Ver Mas](./taks-2/README.md)
 
 ### Tarea 3: Juego de memoria interactivo
 Crear un juego de memoria interactivo. Un tapiz tejido con HTML, CSS y JavaScript/TypeScript, desprovisto de muletas externas. Un lienzo donde las cartas esconden misterios y los jugadores los revelan a través de la astucia y el recuerdo.
