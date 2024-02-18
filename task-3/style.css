@@ -1,0 +1,189 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+p,
+h1 {
+    color: white;
+    text-align: center;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: grid;
+    place-items: center;
+    height: 100dvh;
+    width: 100%;
+    background: linear-gradient(65deg, #2E0854, #4B0082, #483D8B, #6A5ACD, #8A2BE2, #800080, #800080, #4B0082);
+    animation: gradient 25s ease infinite;
+    background-size: 400% 400%;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+button {
+    padding: 0.5rem 2rem;
+    font-weight: 600;
+    font-size: medium;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #8A2BE2;
+    border: 2px solid #000;
+    background-size: 400% 400%;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4B0082;
+}
+
+.grid-container {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(4, 140px);
+    grid-template-rows: repeat(4, 140px);
+    gap: 1rem;
+}
+
+.card {
+    height: 140px;
+    width: 140px;
+    border-radius: 10px;
+    background-color: #78388f;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.5s ease-in-out;
+}
+
+select {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: medium;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #8A2BE2;
+    border: 2px solid #000;
+    background-size: 400% 400%;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.front-image {
+    width: 80px;
+    height: 80px;
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.front,
+.back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    top: 0;
+    border-radius: 10px;
+    left: 0;
+}
+
+.card .front {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotateY(180deg);
+}
+
+.card .back {
+    background-image: url('./assets/fondocartajpg.jpg');
+    background-position: center;
+    background-size: cover;
+    backface-visibility: hidden;
+}
+
+.points {
+    display: flex;
+    gap: 1rem;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    }
+
+    .card {
+        height: 80px;
+        width: 80px;
+    }
+
+    .front-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    button {
+        padding: 0.5rem 1rem;
+    }
+
+    header {
+        margin-top: 0;
+    }
+
+    .points {
+        flex-direction: column;
+    }
+
+    .points h1 {
+        text-align: center;
+    }
+
+    .points p {
+        text-align: center;
+    }
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
