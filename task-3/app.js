@@ -54,18 +54,23 @@ let gameStarted = false;
 let time = 0;
 score.textContent = scoreNow;
 let winner = false;
-
+let cardsShowed = false;
 cards = posibleCards;
+let bonusEttempt = 3;
+let bonusTime = 60;
 
 
 
 function EasyMode() {
-
+    bonusEttempt = 1;
+    bonusTime = 15;
     cards = posibleCards.filter((card, index) => index < 4);
     if (gameStarted) cards = [...cards, ...cards];
 }
 
 function MediumMode() {
+    bonusEttempt = 2;
+    bonusTime = 30;
 
     cards = posibleCards.filter((card, index) => index < 6);
     if (gameStarted) cards = [...cards, ...cards];
@@ -73,6 +78,8 @@ function MediumMode() {
 }
 
 function HardMode() {
+    bonusEttempt = 3;
+    bonusTime = 60;
     cards = posibleCards.filter((card, index) => index < 8);
     if (gameStarted) cards = [...cards, ...cards];
 }
@@ -106,12 +113,16 @@ function formatTime(time) {
 
 }
 
-function startTimer() {
-    if (winner) return;
-    time++;
 
-    timer.textContent = formatTime(time);
+function startTimer() {
+    time++;
+    if (!winner && cardsShowed) timer.textContent = formatTime(time);
     setTimeout(startTimer, 1000);
+}
+
+function restartTimer() {
+    time = 0;
+    timer.textContent = formatTime(time);
 }
 
 
@@ -120,6 +131,7 @@ function startGame() {
     cards = [...cards, ...cards];
     shuffleCards();
     createBoard();
+    showCards();
     startTimer();
 }
 
@@ -140,8 +152,6 @@ function createBoard() {
         `
         console.log(tablero)
         tablero.appendChild(cardElement);
-
-        cardElement.addEventListener('click', flipCard);
     })
 }
 
@@ -201,11 +211,44 @@ function CheckAllMatch() {
     }
 }
 
+async function showCards() {
+    setTimeout(() => {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card) => {
+            card.removeEventListener('click', flipCard);
+            card.classList.add('flipped');
+        });
+        setTimeout(() => {
+            cards.forEach((card) => {
+                card.classList.remove('flipped');
+                card.addEventListener('click', flipCard);
+            });
+            restartTimer();
+            cardsShowed = true;
+        }, 1000);
+
+    }, 500);
+}
+
 function CheckWin() {
     winner = true;
 
-    alert('You Win \n Your score is: ' + scoreNow + '\n Your time is: ' + formatTime(time) + '\n Mode: ' + mode);
-    confetti.render();
+    if (scoreNow <= (cards.length / 2) + bonusEttempt && time <= bonusTime) {
+        alert(`
+    You Win \n 
+    Your score is: ${scoreNow} \n  
+    Your time is: ${formatTime(time)}\n 
+    Mode: ${mode}`);
+        confetti.render();
+    } else {
+        alert(`
+        You Lose \n 
+        Your score is: ${scoreNow}\n 
+        Your score should be less than: ${cards.length / 2 + bonusEttempt}\n
+        Your time is: ${formatTime(time)}\n 
+        Yout time should be less than: ${formatTime(bonusTime)}\n
+        Mode: ${mode}`);
+    }
 }
 
 function enableBoard() {
@@ -218,13 +261,17 @@ function restart() {
         gameStarted = true;
         return startGame();
     }
+    winner = false;
     enableBoard();
     shuffleCards();
     scoreNow = 0;
-    time = 0;
     score.textContent = scoreNow;
     tablero.innerHTML = '';
+    time = 0;
+    timer.textContent = formatTime(time);
+    cardsShowed = false;
     confetti.clear();
     createBoard();
+    showCards();
 }
 
