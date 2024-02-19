@@ -160,7 +160,7 @@ function createBoard() {
         cardElement.dataset.name = card.name;
         cardElement.innerHTML = `
             <div class='front'>
-                <img class='front-image' src=${card.src} alt=${card.name}/>
+                <embed class='front-image' type="image/svg+xml" src=${card.src} alt=${card.name}/>
             </div>
             <div class='back'></div>
         `
