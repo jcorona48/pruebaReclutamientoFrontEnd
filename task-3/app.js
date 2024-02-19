@@ -57,7 +57,7 @@ let winner = false;
 let cardsShowed = false;
 cards = posibleCards;
 let bonusEttempt = 3;
-let bonusTime = 60;
+let bonusTime = 30;
 let conffeti = false;
 
 
