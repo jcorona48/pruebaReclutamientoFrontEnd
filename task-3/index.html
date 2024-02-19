@@ -7,9 +7,7 @@
     <title>Memory Game Vanilla JavaScript</title>
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6168/6168860.png" />
     <link rel="stylesheet" href="style.css">
-    <script src="
-https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js
-"></script>
+    <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
 </head>
 
 <body>
@@ -24,6 +22,7 @@ https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard" selected>Hard</option>
+                <option value="extreme">Extreme</option>
             </select>
             <canvas id="my-canvas"></canvas>
         </div>
@@ -32,9 +31,6 @@ https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js
     <main class="grid-container">
 
     </main>
-
-
-
     <footer class="points">
         <p>
             Score: <span id="score">0</span>
@@ -43,8 +39,6 @@ https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js
             Time: <span id="timer">00 sec</span>
         </p>
     </footer>
-
-
     <script src="./app.js"></script>
 </body>
 

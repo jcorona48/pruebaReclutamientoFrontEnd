@@ -3,9 +3,9 @@ const tablero = document.querySelector('.grid-container')
 const score = document.querySelector('#score')
 const timer = document.querySelector('#timer')
 const select = document.querySelector('#mode')
-var confettiElement = document.getElementById('my-canvas');
-var confettiSettings = { target: confettiElement };
-var confetti = new ConfettiGenerator(confettiSettings);
+const confettiElement = document.getElementById('my-canvas');
+const confettiSettings = { target: confettiElement, animate: true, respawn: true };
+let confetti = new ConfettiGenerator(confettiSettings);
 
 
 const posibleCards = [
@@ -58,6 +58,7 @@ let cardsShowed = false;
 cards = posibleCards;
 let bonusEttempt = 3;
 let bonusTime = 60;
+let conffeti = false;
 
 
 
@@ -70,7 +71,7 @@ function EasyMode() {
 
 function MediumMode() {
     bonusEttempt = 2;
-    bonusTime = 30;
+    bonusTime = 20;
 
     cards = posibleCards.filter((card, index) => index < 6);
     if (gameStarted) cards = [...cards, ...cards];
@@ -79,13 +80,19 @@ function MediumMode() {
 
 function HardMode() {
     bonusEttempt = 3;
-    bonusTime = 60;
-    cards = posibleCards.filter((card, index) => index < 8);
+    bonusTime = 30;
+    cards = posibleCards
+    if (gameStarted) cards = [...cards, ...cards];
+}
+
+function ExtremeMode() {
+    bonusEttempt = 0;
+    bonusTime = 30;
+    cards = posibleCards;
     if (gameStarted) cards = [...cards, ...cards];
 }
 
 select.addEventListener('change', (e) => {
-    console.log(e.target.value)
     if (e.target.value === mode) return;
 
     if (e.target.value === 'easy') {
@@ -100,8 +107,10 @@ select.addEventListener('change', (e) => {
         mode = 'hard';
         HardMode();
     }
-
-    console.log('cards', cards)
+    if (e.target.value === 'extreme') {
+        mode = 'extreme';
+        ExtremeMode();
+    }
 }
 )
 
@@ -150,7 +159,6 @@ function createBoard() {
             </div>
             <div class='back'></div>
         `
-        console.log(tablero)
         tablero.appendChild(cardElement);
     })
 }
@@ -234,12 +242,14 @@ function CheckWin() {
     winner = true;
 
     if (scoreNow <= (cards.length / 2) + bonusEttempt && time <= bonusTime) {
+        confetti.render();
+        conffeti = true;
         alert(`
     You Win \n 
     Your score is: ${scoreNow} \n  
     Your time is: ${formatTime(time)}\n 
     Mode: ${mode}`);
-        confetti.render();
+
     } else {
         alert(`
         You Lose \n 
@@ -249,6 +259,8 @@ function CheckWin() {
         Yout time should be less than: ${formatTime(bonusTime)}\n
         Mode: ${mode}`);
     }
+
+
 }
 
 function enableBoard() {
@@ -270,7 +282,11 @@ function restart() {
     time = 0;
     timer.textContent = formatTime(time);
     cardsShowed = false;
-    confetti.clear();
+    if (conffeti) {
+        confetti.clear();
+        conffeti = false;
+        confetti = new ConfettiGenerator(confettiSettings);
+    }
     createBoard();
     showCards();
 }
