@@ -95,6 +95,9 @@ function ExtremeMode() {
 select.addEventListener('change', (e) => {
     if (e.target.value === mode) return;
 
+    console.log(e.target.value);
+    tablero.classList.replace(mode, e.target.value);
+
     if (e.target.value === 'easy') {
         mode = 'easy';
         EasyMode();
@@ -111,6 +114,8 @@ select.addEventListener('change', (e) => {
         mode = 'extreme';
         ExtremeMode();
     }
+
+    restart();
 }
 )
 

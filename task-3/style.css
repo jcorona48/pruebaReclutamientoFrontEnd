@@ -21,6 +21,7 @@ body {
     background: linear-gradient(65deg, #2E0854, #4B0082, #483D8B, #6A5ACD, #8A2BE2, #800080, #800080, #4B0082);
     animation: gradient 25s ease infinite;
     background-size: 400% 400%;
+    grid-template-rows: auto 1fr auto;
 }
 
 @keyframes gradient {
@@ -63,11 +64,27 @@ button:hover {
 
 .grid-container {
     display: grid;
-    justify-content: center;
-    grid-template-columns: repeat(4, 140px);
-    grid-template-rows: repeat(4, 140px);
+    place-content: center;
     gap: 1rem;
 }
+
+.medium {
+    grid-template-columns: repeat(4, 140px);
+    grid-template-rows: repeat(3, 140px);
+}
+
+.easy {
+    grid-template-columns: repeat(4, 140px);
+    grid-template-rows: repeat(2, 140px);
+}
+
+.hard,
+.extreme {
+    grid-template-columns: repeat(4, 140px);
+    grid-template-rows: repeat(4, 140px);
+}
+
+
 
 .card {
     height: 140px;
@@ -129,6 +146,7 @@ select {
 
 .points {
     display: flex;
+    padding: 1rem;
     gap: 1rem;
 }
 
