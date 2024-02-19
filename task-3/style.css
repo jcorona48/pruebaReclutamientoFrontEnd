@@ -205,3 +205,16 @@ canvas {
     left: 0;
     z-index: -1;
 }
+
+.red {
+    color: #ff2222;
+    font-variant: small-caps;
+    font-weight: 600;
+    -webkit-text-stroke-color: #ff0000;
+    -webkit-text-stroke-width: 0.001rem;
+}
+
+.green {
+    color: #00ca00;
+    font-weight: 700;
+}

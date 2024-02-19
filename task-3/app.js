@@ -255,6 +255,9 @@ function CheckWin() {
     Your time is: ${formatTime(time)}\n 
     Mode: ${mode}`);
 
+        score.classList.add('green');
+        timer.classList.add('green');
+
     } else {
         alert(`
         You Lose \n 
@@ -263,6 +266,19 @@ function CheckWin() {
         Your time is: ${formatTime(time)}\n 
         Yout time should be less than: ${formatTime(bonusTime)}\n
         Mode: ${mode}`);
+
+        if (!(scoreNow <= (cards.length / 2) + bonusEttempt)) {
+            score.classList.add('red');
+        } else {
+            score.classList.add('green');
+
+        }
+
+        if (!(time <= bonusTime)) {
+            timer.classList.add('red');
+        } else {
+            timer.classList.add('green');
+        }
     }
 
 
@@ -273,12 +289,22 @@ function enableBoard() {
     lockBoard = false;
 }
 
+function removeColor() {
+    score.classList.remove('green');
+    score.classList.remove('red');
+    timer.classList.remove('green');
+    timer.classList.remove('red');
+}
+
 function restart() {
     if (!gameStarted) {
         gameStarted = true;
         return startGame();
     }
+
+
     winner = false;
+    removeColor();
     enableBoard();
     shuffleCards();
     scoreNow = 0;
